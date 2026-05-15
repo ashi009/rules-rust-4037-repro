@@ -1,0 +1,13 @@
+"""Minimal reproducer for bazelbuild/rules_rust#4037."""
+
+module(name = "rules_rust_4037_repro", version = "0.0.0")
+
+bazel_dep(name = "rules_rust", version = "0.70.0")
+
+crate = use_extension("@rules_rust//crate_universe:extension.bzl", "crate")
+crate.from_cargo(
+    name = "crates",
+    cargo_lockfile = "//:Cargo.lock",
+    manifests = ["//:Cargo.toml"],
+)
+use_repo(crate, "crates")
